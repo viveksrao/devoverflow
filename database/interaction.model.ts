@@ -1,11 +1,13 @@
-import { model, models, Schema, Types } from "mongoose";
+import { model, models, Schema, Types, Document } from "mongoose";
 
 export interface IInteraction {
   user: Types.ObjectId;
   action: string;
   actionId: Types.ObjectId;
-  actionType: "question" | "answer";
+  actionType: string;
 }
+
+export interface IInteractionDoc extends IInteraction, Document {}
 
 const InteractionSchema = new Schema<IInteraction>(
   {
@@ -14,10 +16,12 @@ const InteractionSchema = new Schema<IInteraction>(
       ref: "User",
       required: true,
     },
+    // 'upvote', 'downvote', 'view', 'ask_question',
     action: {
       type: String,
       required: true,
     },
+    // 'questionId', 'answerId',
     actionId: {
       type: Schema.Types.ObjectId,
       required: true,
