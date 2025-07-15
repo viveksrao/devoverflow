@@ -52,7 +52,7 @@ const AuthForm = <T extends FieldValues>({
         description:
           formType === "SIGN_IN"
             ? "Signed in successfully"
-            : "Signed up successfullly",
+            : "Signed up successfully",
       });
       router.push(ROUTES.HOME);
     } else {
