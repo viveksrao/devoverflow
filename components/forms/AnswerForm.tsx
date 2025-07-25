@@ -5,9 +5,10 @@ import { MDXEditorMethods } from "@mdxeditor/editor";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { toast } from "sonner";
+import { isAborted, z } from "zod";
 
 import {
   Form,
@@ -16,6 +17,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { createAnswer } from "@/lib/actions/answer.action";
 import { AnswerSchema } from "@/lib/validations";
 
 import { Button } from "../ui/button";
@@ -25,8 +27,8 @@ const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
 });
 
-const AnswerForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const AnswerForm = ({ questionId }: { questionId: string }) => {
+  const [isAnswering, startAnsweringTransition] = useTransition();
   const [isAISubmitting, setIsAISubmitting] = useState(false);
 
   const editorRef = useRef<MDXEditorMethods>(null);
@@ -39,7 +41,22 @@ const AnswerForm = () => {
   });
 
   const handleSubmit = async (values: z.infer<typeof AnswerSchema>) => {
-    console.log(values);
+    startAnsweringTransition(async () => {
+      const result = await createAnswer({
+        questionId,
+        content: values.content,
+      });
+      if (result.success) {
+        form.reset();
+        toast("Answer posted successfully", {
+          description: "Your answer has been posted successfully",
+        });
+      } else {
+        toast.error("Error", {
+          description: result.error?.message,
+        });
+      }
+    });
   };
 
   return (
@@ -81,7 +98,7 @@ const AnswerForm = () => {
             name="content"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-3">
-                <FormControl className="mt-3.5">
+                <FormControl>
                   <Editor
                     value={field.value}
                     editorRef={editorRef}
@@ -94,7 +111,7 @@ const AnswerForm = () => {
           />
           <div className="flex justify-end">
             <Button type="submit" className="primary-gradient w-fit">
-              {isSubmitting ? (
+              {isAnswering ? (
                 <>
                   <ReloadIcon className="mr-2 size-4 animate-spin" />
                   Posting...
@@ -111,3 +128,9 @@ const AnswerForm = () => {
 };
 
 export default AnswerForm;
+
+// 4 Years at Growth Natives 
+// 4 Years Drupal Exp. Drupal 10. Business & Marketing Websites.   
+// FE – 4/5
+// BE – 4.5/5
+// Drupal – 4.5/5 
