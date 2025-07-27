@@ -16,6 +16,7 @@ interface Question {
   author: Author;
   createdAt: Date;
   upvotes: number;
+  downvotes: number;
   answers: number;
   views: number;
 }
@@ -54,7 +55,7 @@ interface PaginatedSearchParams {
   sort?: string;
 }
 
-interface Answer{
+interface Answer {
   _id: string;
   author: Author;
   content: string;
