@@ -1,10 +1,7 @@
-import Link from "next/link";
-
 import QuestionCard from "@/components/cards/QuestionCard";
 import DataRenderer from "@/components/DataRenderer";
-import HomeFilter from "@/components/filters/HomeFilter";
+import Pagination from "@/components/Pagination";
 import LocalSearch from "@/components/search/LocalSearch";
-import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getTagQuestions } from "@/lib/actions/tag.action";
@@ -18,7 +15,7 @@ const page = async ({ params, searchParams }: RouteParams) => {
     pageSize: Number(pageSize) || 10,
     query,
   });
-  const { tag, questions } = data || {};
+  const { tag, questions, isNext } = data || {};
   return (
     <>
       <section className="flex w-full flex-col-reverse sm:flex-row justify-between gap-4 sm:items-center">
@@ -45,6 +42,7 @@ const page = async ({ params, searchParams }: RouteParams) => {
           </div>
         )}
       />
+      <Pagination page={page} isNext={isNext || false} />
     </>
   );
 };
