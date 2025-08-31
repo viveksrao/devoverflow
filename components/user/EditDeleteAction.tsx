@@ -14,6 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { deleteQuestion } from "@/lib/actions/question.action";
 interface Props {
   type: string;
   itemId: string;
@@ -27,6 +28,7 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
   const handleDelete = async () => {
     if (type === "Question") {
       // Call API to delete question
+      await deleteQuestion({ questionId: itemId });
       toast("Question deleted", {
         description: "Your question has been deleted successfully.",
       });
@@ -38,7 +40,9 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
     }
   };
   return (
-    <div className={`flex items-center justify-end gap-3 max-sm:w-full ${type === 'Answer' && 'gap-0 justify-center'}`}>
+    <div
+      className={`flex items-center justify-end gap-3 max-sm:w-full ${type === "Answer" && "gap-0 justify-center"}`}
+    >
       {type === "Question" && (
         <Image
           src="/icons/edit.svg"
