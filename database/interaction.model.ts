@@ -9,6 +9,17 @@ export interface IInteraction {
 
 export interface IInteractionDoc extends IInteraction, Document {}
 
+export const InteractionActionEnums = [
+  "view",
+  "upvote",
+  "downvote",
+  "bookmark",
+  "post",
+  "edit",
+  "delete",
+  "search",
+] as const;
+
 const InteractionSchema = new Schema<IInteraction>(
   {
     user: {
@@ -16,12 +27,11 @@ const InteractionSchema = new Schema<IInteraction>(
       ref: "User",
       required: true,
     },
-    // 'upvote', 'downvote', 'view', 'ask_question',
     action: {
       type: String,
+      enum: InteractionActionEnums,
       required: true,
     },
-    // 'questionId', 'answerId',
     actionId: {
       type: Schema.Types.ObjectId,
       required: true,
