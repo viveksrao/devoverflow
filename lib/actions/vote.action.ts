@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 
 import ROUTES from "@/constants/routes";
-import { Question, Vote, Answer, Answer } from "@/database";
+import { Question, Vote, Answer } from "@/database";
 import {
   CreateVoteParams,
   HasVotedParams,
