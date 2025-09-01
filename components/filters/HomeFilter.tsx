@@ -9,29 +9,21 @@ import { Button } from "../ui/button";
 
 const filters = [
   {
-    name: "React",
-    value: "react",
+    name: "Newest",
+    value: "newest",
   },
   {
-    name: "VueJS",
-    value: "vuejs",
+    name: "Popular",
+    value: "popular",
   },
-  // {
-  //   name: "Newest",
-  //   value: "newest",
-  // },
-  // {
-  //   name: "Popular",
-  //   value: "popular",
-  // },
-  // {
-  //   name: "Unanswered",
-  //   value: "unanswered",
-  // },
-  // {
-  //   name: "Recommended",
-  //   value: "recommended",
-  // },
+  {
+    name: "Unanswered",
+    value: "unanswered",
+  },
+  {
+    name: "Recommended",
+    value: "recommended",
+  },
 ];
 const HomeFilter = () => {
   const router = useRouter();
