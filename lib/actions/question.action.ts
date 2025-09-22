@@ -3,6 +3,7 @@
 import mongoose, { Error, FilterQuery, Types } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
+import { cache } from "react";
 
 import { auth } from "@/auth";
 import { Answer, Collection, Interaction, Vote } from "@/database";
@@ -361,7 +362,7 @@ export async function getQuestions(params: PaginatedSearchParams): Promise<
   }
 }
 
-export async function getQuestion(
+export const getQuestion = cache(async function getQuestion(
   params: GetQuestionParams,
 ): Promise<ActionResponse<Question>> {
   const validationResult = await action({
@@ -389,7 +390,7 @@ export async function getQuestion(
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }
-}
+});
 
 export async function incrementViews(
   params: IncrementViewsParams,
